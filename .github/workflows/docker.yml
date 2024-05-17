@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: lobehub/lobe-chat
+          images: hominsu/lobe-chat
           tags: |
             type=raw,value=latest
             type=ref,event=tag
@@ -39,6 +39,8 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
+          secrets: |
+            "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha

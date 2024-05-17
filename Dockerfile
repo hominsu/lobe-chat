@@ -48,7 +48,9 @@ ENV NEXT_PUBLIC_UMAMI_WEBSITE_ID ""
 ENV NODE_OPTIONS "--max-old-space-size=8192"
 
 # run build standalone for docker version
-RUN npm run build:docker
+RUN --mount=type=secret,id=NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY \
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$(cat /run/secrets/NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) \
+    npm run build:docker
 
 ## Production image, copy all the files and run next
 FROM base AS runner
